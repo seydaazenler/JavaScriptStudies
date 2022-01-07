@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>Ders5_MeyveEklemeBootstrap</title>
+</head>
+<body>
+    <div class="container-fluid" style="width:50%">
+        <h2>Meyve Sayfası</h2>
+        <br />
+        <input type="text" placeholder="Meyve giriniz.." id="txtMeyve" class="form-control"/> <br />
+        <input type="button" value="EKLE" onclick="MeyveEkle()" class="btn btn-success"/>
+        <input type="button" value="TEMİZLE" onclick="Temizle()" class="btn btn-default" style="background-color:brown; color:white" />
+        <br /> <br />
+        <div id="mesajDiv">
+
+        </div>
+    </div>
+
+
+    <script>
+        var meyveSepeti = [];
+        function Temizle() {
+            if (meyveSepeti.length == 0) {
+                alert("Sayfa temiz..");
+            }
+            meyveSepeti = [];
+            document.getElementById("mesajDiv").innerHTML = "";
+            document.getElementById("txtMeyve").value = "";
+        }
+
+        function MeyveEkle() {
+            var meyveAdi = document.getElementById("txtMeyve").value.trim();
+            if (meyveAdi == null || meyveAdi.length == 0) {
+                alert("Meyve adını girmelisiniz...");
+                return;
+            }
+            //yeni meyve için property tanımlandı
+            var yeniMeyve = {
+                isim: meyveAdi,
+                adet: 0,
+                id: 0
+            };
+
+            if (meyveSepeti.length==0) {
+                //herhangi bir meyve sepette yoksa
+                yeniMeyve.id = 1;
+                yeniMeyve.adet = 1;
+                meyveSepeti.push(yeniMeyve);
+            }
+            else {
+                var varMi = false;
+                //meyveden sepette olup olmadığını kontrol etmek gerekir
+                for (var i = 0; i < meyveSepeti.length; i++) {
+                    if (meyveSepeti[i].isim.toLowerCase() == meyveAdi.toLowerCase()) {
+                        varMi = true;
+                        meyveSepeti[i].adet++;
+                        break;
+                    }
+                }
+                //meyve dizimizde yoksa
+                if (varMi == false) {
+                    yeniMeyve.adet = 1;
+                    yeniMeyve.id = meyveSepeti.length + 1;
+                    meyveSepeti.push(yeniMeyve);
+
+                }
+
+            }
+
+            document.getElementById("txtMeyve").value = ""
+            /*MeyveDoldur();*/
+            TabloyaDoldur();
+        }
+
+        function MeyveDoldur() {
+            document.getElementById("mesajDiv").innerHTML = "";
+            var toplam = 0;
+
+            var ol = document.createElement("ol");
+            var span = document.createElement("span");
+            for (var i = 0; i < meyveSepeti.length; i++) {
+
+                if (meyveSepeti[i].adet <= 0) {
+                    continue;
+                }
+                toplam += meyveSepeti[i].adet;
+                var li = document.createElement("li");
+                li.innerHTML = "<b>" + meyveSepeti[i].isim + "</b> - " + meyveSepeti[i].adet;
+
+                var artiButon = document.createElement("input");
+                artiButon.setAttribute("type", "button");
+                artiButon.setAttribute("value", "+");
+                artiButon.setAttribute("id", meyveSepeti[i].id);
+                artiButon.addEventListener("click", AdetArtir);
+
+                var eksiButon = document.createElement("input");
+                eksiButon.setAttribute("type", "button");
+                eksiButon.setAttribute("value", "-");
+                eksiButon.setAttribute("id", meyveSepeti[i].id);
+                eksiButon.addEventListener("click", AdetAzalt);
+
+                var cikartButon = document.createElement("input");
+                cikartButon.setAttribute("type", "button");
+                cikartButon.setAttribute("value", "Çıkart");
+                cikartButon.setAttribute("id", meyveSepeti[i].id);
+                cikartButon.addEventListener("click", MeyveyiCikar);
+
+                li.appendChild(artiButon);
+                li.appendChild(eksiButon);
+                li.appendChild(cikartButon);
+                ol.appendChild(li);
+
+            }
+
+            document.getElementById("mesajDiv").appendChild(ol);
+            span.innerHTML = "Toplam = " + toplam;
+            document.getElementById("mesajDiv").appendChild(span);
+        }
+
+        function AdetArtir(sender) {
+            for (var i = 0; i < meyveSepeti.length; i++) {
+                if (meyveSepeti[i].id == sender.id) {
+
+                    meyveSepeti[i].adet++;
+                    break;
+                }
+
+            } //for bitti
+            //MeyveDoldur();
+            TabloyaDoldur();
+        }
+
+        function AdetAzalt(sender) {
+            for (var i = 0; i < meyveSepeti.length; i++) {
+                if (meyveSepeti[i].id == sender.id) {
+
+                    meyveSepeti[i].adet--;
+                    if (meyveSepeti[i].adet <= 0) {
+                        meyveSepeti.splice(i, 1);
+                    }
+                    break;
+                }
+
+            } //for bitti
+            //MeyveDoldur();
+            TabloyaDoldur();
+        }
+
+        function MeyveyiCikar(sender) {
+            //1.yöntem adedi sıfırlamak
+            //for (var i = 0; i < meyveSepeti.length; i++) {
+            //    if (meyveSepeti[i].id == sender.id) {
+
+            //        meyveSepeti[i].adet = 0;
+            //        break;
+            //    }
+
+            //}for bitti
+
+            //2.Yöntem: splice() ile diziden elemanı tamamen çıkaralım
+            for (var i = 0; i < meyveSepeti.length; i++) {
+                if (meyveSepeti[i].id == sender.id) {
+                    //çıkarılacak meyveyi bulduk
+                    meyveSepeti.splice(i, 1); //i. indexteki elemandan itibaren 1 tane elemanı çıkartır
+                    break;
+                }
+            }
+            //ek işlem
+            for (var i = 0; i < meyveSepeti.length; i++) {
+                meyveSepeti[i].id = i + 1;
+            }
+
+            //MeyveDoldur();
+            TabloyaDoldur();
+
+
+        }
+
+        function TabloyaDoldur() {
+            document.getElementById("mesajDiv").innerHTML = ""; //tablo temizlendi
+            var toplam = 0;
+            if (meyveSepeti.length == 0) {
+                return;
+            }
+
+            //<table class = "table table-hover">
+            var tableHTMLText = "<table class=\"table table-hover\">";
+            tableHTMLText += "<tr><th>Meyve ID</th><th>Meyve Adı</th><th>Adet</th><th>İşlemler</th></tr>";
+
+            for (var i = 0; i < meyveSepeti.length; i++) {
+                if (meyveSepeti[i].adet <= 0) {
+                    continue;
+                }
+                tableHTMLText += "<tr>"
+                    + "<td>" + meyveSepeti[i].id + "</td>"
+                    + "<td>" + meyveSepeti[i].isim + "</td>"
+                    + "<td>" + meyveSepeti[i].adet + "</td>"
+                    + "<td>" + "\t<input type=\"button\" value=\"+\""
+                    + "id=" + meyveSepeti[i].id
+                    + " class=\"btn btn-success\" onclick=\"AdetArtir(this)\"/>"
+                    + "\t<input type=\"button\" value=\"-\""
+                    + "id=" + meyveSepeti[i].id
+                    + " class=\"btn btn-warning\" onclick=\"AdetAzalt(this)\"/>"
+                    + "\t<button onclick=\"MeyveyiCikar(this)\" id=" + meyveSepeti[i].id + " class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></button>"
+                    + "</td></tr>";
+                    
+            }
+            document.getElementById("mesajDiv").innerHTML = tableHTMLText;
+        }
+
+    </script>
+
+</body>
+</html>

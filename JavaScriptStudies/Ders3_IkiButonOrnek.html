@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Ders3_IkiButonOrnek</title>
+    <style>
+        .btnBir{
+            background-color:cadetblue;
+            color:black;
+        }
+        .btnIki{
+            background-color:pink;
+            color:white;
+        }
+    </style>
+    <script>
+        function button1_Click(btn) {
+            //button2 değişecek
+            document.getElementById("btn2").style = "background-color:red;color:white;";
+            //1. yöntem
+            /*document.getElementById("btn1").style = "background-color:cadetblue;color:black;";*/
+
+            //2.Yöntem
+            /*btn.style = "background-color: cadetblue; color: black;";*/
+
+            //3.Yöntem
+            btn.style = "class:\"btnBir\"";
+
+
+
+        }
+        function button2_Click(btn) {
+            //button1 değişecek
+            document.getElementById("btn1").style = "background-color:blue; color:white;";
+            //1. yöntem
+            /*document.getElementById("btn2").style = "background-color:pink; color:white;";*/
+
+            //2. Yöntem
+            /*btn.style = "background-color:pink; color:white;";*/
+
+            //3.Yöntem
+            btn.style = "class:\"btnIki\"";
+        }
+
+    </script>
+</head>
+<body>
+    <input type="button" id="btn1" onclick="button1_Click(this)" value="Buton 1" class="btnBir" />
+    <br/><br />
+    <input type="button" id="btn2" onclick="button2_Click(this)" value="Buton 2" class="btnIki" />
+</body>
+</html>

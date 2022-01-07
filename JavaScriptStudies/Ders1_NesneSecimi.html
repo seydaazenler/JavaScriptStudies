@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Ders7_ColorBalls</title>
+    <style>
+        .sekil {
+            margin: 5px;
+            float: left;
+            height: 200px;
+            width: 200px;
+            transition: all 1.4s ease;
+            border-radius: 100px;
+        }
+
+            .sekil:hover {
+                transform: scale(1.04)rotate(1800deg)translate(10px);
+            }
+    </style>
+</head>
+<body>
+    <h2>
+        Butona Tıklayarak Renkli Bir Daire Ekleyebilirsiniz...
+    </h2> <br />
+    <input type="button" value="EKLE" onclick="Ekle()" /> <br /> <br />
+    <div id="divpanel"></div>
+
+    <script>
+        var divpanel = document.getElementById("divpanel");
+        function Ekle() {
+            //yeni bir div oluşturulacak
+            var yenidiv = document.createElement("div");
+            yenidiv.setAttribute("class", "sekil");
+            yenidiv.style.backgroundColor = RastgeleRenkUret();
+            yenidiv.setAttribute("onclick", "IcıneEkle(this)");
+            divpanel.appendChild(yenidiv);
+
+        }
+        function IcineEkle(item) {
+            var width = item.offsetWidth;
+            var height = item.offsetHeight;
+            var yenidiv = document.createElement("div");
+            //
+            yenidiv.setAttribute("style", "margin:5px;float:left;height:" + (Number(height) - 10) + "px; width:" + (Number(width) - 10) + "px;border-radius:" + (Number(height) / 2) + "px;");
+
+            yenidiv.setAttribute("onclick,IcineEkle(this)");
+            yenidiv.style.backgroundColor = RastgeleRenkUret;
+            item.setAttribute("onclick", null);
+            item.appendChild(yenidiv);
+
+        }
+        function RastgeleRenkUret() {
+            var letters = "0123456789ABCDEF";
+            var renk = "#";
+            //ffffff renkler 6 haneli olduğu için
+            var rastgele = null;
+            var uretilenindex = 0;
+            for (var i = 0; i < 6; i++) {
+                rastgele = Math.random();
+                console.log("Math.random()")
+                console.log(rastgele);
+                uretilenindex = Math.floor(rastgele * 16);
+                console.log("Math.floor(rastgele*16)");
+                console.log(uretilenindex);
+                renk += letters[uretilenindex];
+            }
+            console.log(renk);
+            return renk;
+        }
+    </script>
+</body>
+</html>

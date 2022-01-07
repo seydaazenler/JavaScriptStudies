@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Renklendirme Örneği JQuery</h2>
+    <br>
+    <input type="range" class="renk" id="r" min="0" max="255" />
+    <br />
+    <input type="range" class="renk" id="g" min="0" max="255" />
+    <br />
+    <input type="range" class="renk" id="b" min="0" max="255" />
+    <br />
+    <div id="renkpanel"></div>
+
+    <script>
+        $(document).ready(function () {
+            $(".renk").change(function () {
+                console.log("change");
+                var r = 0, g = 0, b = 0;
+                r = $("#r").val();
+                g = $("#g").val();
+                b = $("#b").val();
+                var rgb = "rgb(" + r + "," + g + "," + b + ")";
+                var zit = "rgb(" + (255 - r) + "," + (255 - g) + "," + (255 - b) + ")";
+
+                $("#renkpanel").css("background-color", rgb);
+                $("#renkpanel").css("color", zit);
+                $("#renkpanel").css("height", 150);
+                $("#renkpanel").css("width", 200);
+                $("#renkpanel").html("<b>" + rgb + "</b>");
+
+
+
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Ders2_InnerHtml_InnerText</title>
+    <script>
+        function sayfayuklendi() {
+            console.log("Sayfanız yüklendi...");
+        }
+        function MesajiGonder() {
+            console.log("Butona tıklandı...");
+            //textbox a yazılan mesajı label e aktarmak istiyoruz
+            var mesajTextBox = document.getElementById("txtmesaj");
+            //console.log("mesajTextBox.innerText=");
+            //console.log(mesajTextBox.innerText);
+
+            console.log(mesajTextBox.value);
+            document.getElementById("lblMesaj").innerText = mesajTextBox.value;
+            //butona tıkladığımızda textbox içerisindeki yazıyı clear eder
+            mesajTextBox.value = "";
+
+
+        }
+        //aşağıdan inputtan gönderilen this buraya txt olarak gelir
+        function Yazdir(txt) {
+            document.getElementById("lblMesaj").style =
+                "color:pink; background-color:blue;";
+
+            document.getElementById("lblMesaj").innerHTML =
+                "<i>" + txt.value + "</i>";
+        }
+    </script>
+</head>
+<body onload="sayfayuklendi()">
+    <h2>Javascript Nesne Seçimi ve Fonksiyon Örneği</h2>
+    <br /><br />
+    <!--Elemente tıklanınca onfocus="this.valu=null" değeri elementin sahip olduğu text'i siler.'-->
+    <input type="text" id="txtmesaj" />
+    <input type="button" value="Gönder" onclick="MesajiGonder()" />
+    <br />
+
+    <h4>Aşağıdaki TextBox'a mesajınızı yazar yazmaz mesaj aktarılacaktır</h4>
+    <!--this kullanınca ID vermeye gerek kalmaz texti yakalar -->
+    <!-- onkeyup hiçbir tıklama yapmadan yazdırmaya yarar-->
+    <input type="text" onkeyup="Yazdir(this)" />
+    <br /><br />
+    Sonuç:
+    <label id="lblMesaj"></label>
+
+</body>
+</html>
